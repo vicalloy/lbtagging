@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-from taggit import VERSION
+from lbtagging import VERSION
 
 
 f = open(os.path.join(os.path.dirname(__file__), 'README.txt'))
@@ -9,17 +9,17 @@ readme = f.read()
 f.close()
 
 setup(
-    name='django-taggit',
+    name='django-lbtagging',
     version=".".join(map(str, VERSION)),
-    description='django-taggit is a reusable Django application for simple tagging.',
+    description='django-lbtagging is a reusable Django application for simple tagging.',
     long_description=readme,
     author='Alex Gaynor',
     author_email='alex.gaynor@gmail.com',
-    url='http://github.com/alex/django-taggit/tree/master',
+    url='http://github.com/alex/django-lbtagging/tree/master',
     packages=find_packages(),
     zip_safe=False,
     package_data = {
-        'taggit': [
+        'lbtagging': [
             'locale/*/LC_MESSAGES/*',
         ],
     },
@@ -32,6 +32,6 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    test_suite='taggit.tests.runtests.runtests'
+    test_suite='lbtagging.tests.runtests.runtests'
 )
 

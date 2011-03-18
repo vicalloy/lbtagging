@@ -6,15 +6,15 @@ from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
 
-from taggit.managers import TaggableManager
-from taggit.models import Tag, TaggedItem
-from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
+from lbtagging.managers import TaggableManager
+from lbtagging.models import Tag, TaggedItem
+from lbtagging.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
-from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
+from lbtagging.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
     OfficialThroughModel, OfficialTag, Photo, Movie, Article)
-from taggit.utils import parse_tags, edit_string_for_tags
+from lbtagging.utils import parse_tags, edit_string_for_tags
 
 
 class BaseTaggingTest(object):
@@ -79,7 +79,7 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
         apple.tags.add(yummy)
 
     def test_slugify(self):
-        a = Article.objects.create(title="django-taggit 1.0 Released")
+        a = Article.objects.create(title="django-lbtagging 1.0 Released")
         a.tags.add("awesome", "release", "AWESOME")
         self.assert_tags_equal(a.tags.all(), [
             "category-awesome",
@@ -301,7 +301,7 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     taggeditem_model = TaggedCustomPKPet
 
     def test_require_pk(self):
-        # TODO with a charfield pk, pk is never None, so taggit has no way to
+        # TODO with a charfield pk, pk is never None, so lbtagging has no way to
         # tell if the instance is saved or not
         pass
 

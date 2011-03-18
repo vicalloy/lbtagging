@@ -15,14 +15,14 @@ Changelog
  * Added a Hebrew locale.
  * Added an index on the ``object_id`` field of ``TaggedItem``.
  * When displaying tags always join them with commas, never spaces.
- * The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
+ * The docs are now available `online <http://django-lbtagging.readthedocs.org/>`_.
  * Custom ``Tag`` models are now allowed.
  * *Backwards incompatible*  Filtering on tags is no longer
    ``filter(tags__in=["foo"])``, it is written
    ``filter(tags__name__in=["foo"])``.
  * Added a German locale.
  * Added a Dutch locale.
- * Removed ``taggit.contrib.suggest``, it now lives in an external application,
+ * Removed ``lbtagging.contrib.suggest``, it now lives in an external application,
    see :doc:`external_apps` for more information.
 
 0.8.0
@@ -32,7 +32,7 @@ Changelog
  * Marked strings as translatable.
 
    * Added a Russian translation.
- * Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
+ * Created a `mailing list <http://groups.google.com/group/django-lbtagging>`_.
  * Smarter tagstring parsing for form field; ported from Jonathan
    Buchanan's `django-tagging
    <http://django-tagging.googlecode.com>`_. Now supports tags

@@ -1,24 +1,24 @@
 Using a Custom Tag or Through Model
 ===================================
 
-By default ``django-taggit`` uses a "through model" with a
+By default ``django-lbtagging`` uses a "through model" with a
 ``GenericForeignKey`` on it, that has another ``ForeignKey`` to an included
 ``Tag`` model.  However, there are some cases where this isn't desirable, for
 example if you want the speed and referential guarantees of a real
 ``ForeignKey``, if you have a model with a non-integer primary key, or if you
 want to store additional data about a tag, such as whether it is official.  In
-these cases ``django-taggit`` makes it easy to substitute your own through
+these cases ``django-lbtagging`` makes it easy to substitute your own through
 model, or ``Tag`` model.
 
 Your intermediary model must be a subclass of
-``taggit.models.TaggedItemBase`` with a foreign key to your content
+``lbtagging.models.TaggedItemBase`` with a foreign key to your content
 model named ``content_object``. Pass this intermediary model as the
 ``through`` argument to ``TaggableManager``::
 
     from django.db import models
 
-    from taggit.managers import TaggableManager
-    from taggit.models import TaggedItemBase
+    from lbtagging.managers import TaggableManager
+    from lbtagging.models import TaggedItemBase
 
 
     class TaggedFood(TaggedItemBase):
@@ -49,7 +49,7 @@ When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag 
 
     .. method:: slugify(tag, i=None)
 
-        By default ``taggit`` uses :func:`django.template.defaultfilters.slugify`
+        By default ``lbtagging`` uses :func:`django.template.defaultfilters.slugify`
         to calculate a slug for a given tag.  However, if you want to implement
         your own logic you can override this method, which receives the ``tag``
         (a string), and ``i``, which is either ``None`` or an integer, which

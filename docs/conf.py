@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# django-taggit documentation build configuration file, created by
+# django-lbtagging documentation build configuration file, created by
 # sphinx-quickstart on Mon May  3 22:22:47 2010.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -37,7 +37,7 @@ source_suffix = '.txt'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-taggit'
+project = u'django-lbtagging'
 copyright = u'2010, Alex Gaynor'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -158,7 +158,7 @@ html_static_path = ['_static']
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-taggitdoc'
+htmlhelp_basename = 'django-lbtaggingdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -172,7 +172,7 @@ htmlhelp_basename = 'django-taggitdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-taggit.tex', u'django-taggit Documentation',
+  ('index', 'django-lbtagging.tex', u'django-lbtagging Documentation',
    u'Alex Gaynor', 'manual'),
 ]
 

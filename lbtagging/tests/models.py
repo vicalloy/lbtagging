@@ -1,7 +1,7 @@
 from django.db import models
 
-from taggit.managers import TaggableManager
-from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
+from lbtagging.managers import TaggableManager
+from lbtagging.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 
 

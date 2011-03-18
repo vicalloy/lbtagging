@@ -83,6 +83,6 @@ Aggregation
 
 Unfortunately, due to a
 `bug in Django <http://code.djangoproject.com/ticket/10870>`_, it is not
-currently possible to use aggregation in conjunction with ``taggit``.  This is
+currently possible to use aggregation in conjunction with ``lbtagging``.  This is
 a `documented interaction <http://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
-of generic relations (which ``taggit`` uses internally) and aggregates.
+of generic relations (which ``lbtagging`` uses internally) and aggregates.

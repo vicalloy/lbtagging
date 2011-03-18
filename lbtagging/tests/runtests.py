@@ -9,8 +9,8 @@ if not settings.configured:
         DATABASE_ENGINE='sqlite3',
         INSTALLED_APPS=[
             'django.contrib.contenttypes',
-            'taggit',
-            'taggit.tests',
+            'lbtagging',
+            'lbtagging.tests',
         ]
     )
 

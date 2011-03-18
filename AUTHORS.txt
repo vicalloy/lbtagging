@@ -1,4 +1,4 @@
-django-taggit was originally created by Alex Gaynor.
+django-lbtagging was originally created by Alex Gaynor.
 
 The following is a list of much appreciated contributors:
 

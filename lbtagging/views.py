@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from django.views.generic.list_detail import object_list
 
-from taggit.models import TaggedItem, Tag
+from lbtagging.models import TaggedItem, Tag
 
 
 def tagged_object_list(request, slug, queryset, **kwargs):

@@ -1,12 +1,12 @@
-django-taggit
+django-lbtagging
 =============
 
-``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
+``django-lbtagging`` a simpler approach to tagging with Django.  Add ``"lbtagging"`` to your
 ``INSTALLED_APPS`` then just add a TaggableManager to your model and go::
 
     from django.db import models
 
-    from taggit.managers import TaggableManager
+    from lbtagging.managers import TaggableManager
 
     class Food(models.Model):
         # ... fields here
@@ -28,8 +28,8 @@ Then you can use the API like so::
 
 Tags will show up for you automatically in forms and the admin.
 
-``django-taggit`` requires Django 1.1 or greater.
+``django-lbtagging`` requires Django 1.1 or greater.
 
 For more info checkout out the documentation.  And for questions about usage or
 development you can contact the
-`mailinglist <http://groups.google.com/group/django-taggit>`_.
+`mailinglist <http://groups.google.com/group/django-lbtagging>`_.

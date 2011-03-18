@@ -1,19 +1,19 @@
 Getting Started
 ===============
 
-To get started using ``django-taggit`` simply install it with
+To get started using ``django-lbtagging`` simply install it with
 ``pip``::
 
-    $ pip install django-taggit
+    $ pip install django-lbtagging
 
 
-Add ``"taggit"`` to your project's ``INSTALLED_APPS`` setting.
+Add ``"lbtagging"`` to your project's ``INSTALLED_APPS`` setting.
 
 And then to any model you want tagging on do the following::
 
     from django.db import models
 
-    from taggit.managers import TaggableManager
+    from lbtagging.managers import TaggableManager
 
     class Food(models.Model):
         # ... fields here
