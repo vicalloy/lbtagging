@@ -28,15 +28,20 @@ class HousePet(Pet):
 # Test direct-tagging with custom through model
 
 class TaggedFood(TaggedItemBase):
+    count_field = 'count1'
     content_object = models.ForeignKey('DirectFood')
 
 class TaggedPet(TaggedItemBase):
+    count_field = 'count2'
     content_object = models.ForeignKey('DirectPet')
 
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through="TaggedFood")
+
+    def delete(self):
+        super(DirectFood, self).delete()
 
 class DirectPet(models.Model):
     name = models.CharField(max_length=50)
@@ -53,9 +58,11 @@ class DirectHousePet(DirectPet):
 # Test custom through model to model with custom PK
 
 class TaggedCustomPKFood(TaggedItemBase):
+    count_field = 'count3'
     content_object = models.ForeignKey('CustomPKFood')
 
 class TaggedCustomPKPet(TaggedItemBase):
+    count_field = 'count4'
     content_object = models.ForeignKey('CustomPKPet')
 
 class CustomPKFood(models.Model):
@@ -83,6 +90,7 @@ class OfficialTag(TagBase):
     official = models.BooleanField()
 
 class OfficialThroughModel(GenericTaggedItemBase):
+    count_field = 'count5'
     tag = models.ForeignKey(OfficialTag, related_name="tagged_items")
 
 class OfficialFood(models.Model):

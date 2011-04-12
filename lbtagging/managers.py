@@ -10,6 +10,7 @@ from lbtagging.forms import TagField
 from lbtagging.models import TaggedItem, GenericTaggedItemBase
 from lbtagging.utils import require_instance_manager
 
+#FIXME need obj.tags.clear() befor delete object
 
 try:
     all
@@ -152,6 +153,14 @@ class _TaggableManager(models.Manager):
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
 
+    def _inc_tag_count(self, tag, inc):
+        tag.count += inc
+        count_field = self.through.count_field
+        c = getattr(tag, count_field, 0)
+        c += inc
+        setattr(tag, count_field, c)
+        tag.save()
+
     @require_instance_manager
     def add(self, *tags):
         str_tags = set([
@@ -171,7 +180,9 @@ class _TaggableManager(models.Manager):
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
         for tag in tag_objs:
-            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            obj, created = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            if created:
+                self._inc_tag_count(tag, 1)
 
     @require_instance_manager
     def set(self, *tags):
@@ -180,12 +191,19 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def remove(self, *tags):
-        self.through.objects.filter(**self._lookup_kwargs()).filter(
-            tag__name__in=tags).delete()
+        throughs = self.through.objects.filter(**self._lookup_kwargs())
+        if tags:
+            throughs = throughs.filter(
+                tag__name__in=tags)
+        for through in throughs:
+            self._inc_tag_count(through.tag, -1)
+        throughs.delete()
 
     @require_instance_manager
     def clear(self):
-        self.through.objects.filter(**self._lookup_kwargs()).delete()
+        #TODO update tag count
+        #self.through.objects.filter(**self._lookup_kwargs()).delete()
+        self.remove()
 
     def most_common(self):
         return self.get_query_set().annotate(
