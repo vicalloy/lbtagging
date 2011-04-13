@@ -11,6 +11,8 @@ from lbtagging.models import TaggedItem, GenericTaggedItemBase
 from lbtagging.utils import require_instance_manager
 
 #FIXME need obj.tags.clear() befor delete object
+#TODO see ContentType models to see how to modify other fields
+#TODO add a tags_txt field
 
 try:
     all
@@ -183,6 +185,10 @@ class _TaggableManager(models.Manager):
             obj, created = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
             if created:
                 self._inc_tag_count(tag, 1)
+        #update tags_txt
+        self.instance.tags_txt = ','.join([t.name for t in self.through.tag_model().objects.all()])
+        #FIXME need save instance after modify tags
+        #self.instance.save()
 
     @require_instance_manager
     def set(self, *tags):

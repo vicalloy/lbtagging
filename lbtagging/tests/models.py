@@ -9,6 +9,7 @@ class Food(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager()
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -17,6 +18,7 @@ class Pet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager()
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -39,6 +41,7 @@ class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through="TaggedFood")
+    tags_txt = models.CharField(max_length=1000)
 
     def delete(self):
         super(DirectFood, self).delete()
@@ -47,6 +50,7 @@ class DirectPet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=TaggedPet)
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -69,6 +73,7 @@ class CustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKFood)
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -77,6 +82,7 @@ class CustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKPet)
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -97,6 +103,7 @@ class OfficialFood(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -105,6 +112,7 @@ class OfficialPet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
+    tags_txt = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -115,6 +123,7 @@ class OfficialHousePet(OfficialPet):
 
 class Media(models.Model):
     tags = TaggableManager()
+    tags_txt = models.CharField(max_length=1000)
 
     class Meta:
         abstract = True
@@ -149,3 +158,4 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
 
     tags = TaggableManager(through=ArticleTaggedItem)
+    tags_txt = models.CharField(max_length=1000)

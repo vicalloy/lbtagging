@@ -171,9 +171,17 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.delete()
         self.assert_tags_equal(strawberry.tags.all(), ["red"])
 
+    def test_tags_txt(self):
+        apple = self.food_model.objects.create(name="og")
+        apple.tags.add("red")
+        apple.tags.add("green")
+        self.assertEqual(apple.tags_txt, 'red,green')
+
     def test_tag_count(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red")
+        apple.tags.add("green")
+
         tag = self.tag_model.objects.get(name="red")
         old_tag_count = tag.count
 
