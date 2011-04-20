@@ -185,8 +185,9 @@ class _TaggableManager(models.Manager):
             obj, created = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
             if created:
                 self._inc_tag_count(tag, 1)
-        #update tags_txt
-        self.instance.tags_txt = ','.join([t.name for t in self.through.tag_model().objects.all()])
+        #TODO update tags_txt
+        throughs = self.through.objects.filter(**self._lookup_kwargs())
+        self.instance.tags_txt = ','.join([t.tag.name for t in throughs])
         #FIXME need save instance after modify tags
         #self.instance.save()
 
