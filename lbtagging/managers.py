@@ -7,8 +7,8 @@ from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
 from lbtagging.forms import TagField
-from lbtagging.models import TaggedItem, GenericTaggedItemBase
-from lbtagging.utils import require_instance_manager
+from lbtagging.models import TaggedItem, GenericTaggedItemBase, TagUsedCount
+from lbtagging.utils import require_instance_manager, edit_string_for_tags
 
 #FIXME need obj.tags.clear() befor delete object
 #TODO see ContentType models to see how to modify other fields
@@ -28,6 +28,23 @@ except NameError:
                     return False
             return True
 
+"""
+def update_tag_relates(tags, modify_tags, inc, count_field):
+    def gen_tag_relates(tags):
+        tag_relates = []
+        tags.sort(key=lambda t:t.name)#how to sort?
+        for i in xrange(len(tags)):
+            for j in xrange(i+1, len(tags)):
+                tag_relates.append([tags[i], tags[j]])
+        return tag_relates
+    tag_relates = gen_tag_relates(tags)
+    for tag_relate in tag_relates:
+        if (tag_relate[0] in modify_tags) or (tag_relate[1] in modify_tags):
+            tag_relate, created = TagRelate.objects.get_or_create(tag1=tag_relate[0], 
+                    tag2=tag_relate[1], count_field=count_field)
+            tag_relate.count += inc
+            tag_relate.save()
+            """
 
 class TaggableRel(ManyToManyRel):
     def __init__(self):
@@ -156,12 +173,12 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     def _inc_tag_count(self, tag, inc):
-        tag.count += inc
-        count_field = self.through.count_field
-        c = getattr(tag, count_field, 0)
-        c += inc
-        setattr(tag, count_field, c)
-        tag.save()
+        tagged_table = self.instance._meta.db_table
+        tag_used_count, created = TagUsedCount.objects.get_or_create(tag=tag, tagged_table=tagged_table)
+        tag_used_count.count += inc
+        tag_used_count.recent_count += inc
+        tag_used_count.recent_count_bak += inc
+        tag_used_count.save()
 
     @require_instance_manager
     def add(self, *tags):
@@ -181,15 +198,19 @@ class _TaggableManager(models.Manager):
         for new_tag in str_tags - set(t.name for t in existing):
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
+        new_added_tags = []
         for tag in tag_objs:
             obj, created = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
             if created:
                 self._inc_tag_count(tag, 1)
-        #TODO update tags_txt
+                new_added_tags.append(tag)
+        # update tags_txt
         throughs = self.through.objects.filter(**self._lookup_kwargs())
-        self.instance.tags_txt = ','.join([t.tag.name for t in throughs])
+        all_tags = [t.tag for t in throughs]
+        self.instance.tags_txt = edit_string_for_tags(all_tags)
         #FIXME need save instance after modify tags
         #self.instance.save()
+        
 
     @require_instance_manager
     def set(self, *tags):
@@ -208,7 +229,6 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def clear(self):
-        #TODO update tag count
         #self.through.objects.filter(**self._lookup_kwargs()).delete()
         self.remove()
 

@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from lbtagging.models import Tag, TaggedItem
-
+from lbtagging.models import Tag, TaggedItem, TagUsedCount
 
 class TaggedItemInline(admin.StackedInline):
     model = TaggedItem
@@ -14,3 +13,4 @@ class TagAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tag, TagAdmin)
+admin.site.register(TagUsedCount)

@@ -5,6 +5,7 @@ from django.db import models, IntegrityError, transaction
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
 
+import urllib
 
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
@@ -55,21 +56,19 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = default_slugify(tag)
+        #slug = default_slugify(tag)
+        #slug = urllib.unquote(tag.encode('utf-8'))
+        slug = tag
         if i is not None:
             slug += "_%d" % i
         return slug
-
 
 class Tag(TagBase):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
 
-
-
 class ItemBase(models.Model):
-    count_field = 'count1'
 
     def __unicode__(self):
         return ugettext("%(object)s tagged with %(tag)s") % {
@@ -170,3 +169,34 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
+
+class TagUsedCount(models.Model):
+    """
+    use SQL to reset recent_count:
+    update tb set recent_count = recent_count_bak, recent_count_bak=0
+    """
+    tag = models.ForeignKey(Tag)
+    count = models.IntegerField(verbose_name=_('Used Count'), default=0)
+    recent_count = models.IntegerField(verbose_name=_('Recent Used Count'), default=0)
+    recent_count_bak = models.IntegerField(verbose_name=_('Recent Used Count'), default=0)
+    tagged_table = models.CharField(verbose_name=_('Tagged Table'), max_length=32, blank=True, default='')
+    updated_on = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "%s|%s|%s" % (self.tag.name, self.tagged_table, self.count)
+
+"""
+class TagRelate(models.Model):
+    tag1 = models.ForeignKey(Tag, related_name='first_relatedtags')
+    tag2 = models.ForeignKey(Tag, related_name='sec_relatedtags')
+    count_field = models.CharField(verbose_name=_('Count Field'), max_length=8, default='count1')
+    count = models.IntegerField(verbose_name=_('Used Count'), default=0)
+
+    def save(self, *args, **kwargs):
+        if self.tag1.name > self.tag2.name:
+            self.tag1, self.tag2 = self.tag2, self.tag1
+        super(TagRelate, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return "%s,%s|%s|%s" % (self.tag1.name, self.tag2.name, self.count_field, self.count)
+"""
