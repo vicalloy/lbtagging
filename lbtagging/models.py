@@ -10,16 +10,6 @@ import urllib
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
-    count = models.IntegerField(verbose_name=_('Used Count'), default=0)
-    count1 = models.IntegerField(verbose_name=_('Used Count 1'), default=0)
-    count2 = models.IntegerField(verbose_name=_('Used Count 2'), default=0)
-    count3 = models.IntegerField(verbose_name=_('Used Count 3'), default=0)
-    count4 = models.IntegerField(verbose_name=_('Used Count 4'), default=0)
-    count5 = models.IntegerField(verbose_name=_('Used Count 5'), default=0)
-    count6 = models.IntegerField(verbose_name=_('Used Count 6'), default=0)
-    count7 = models.IntegerField(verbose_name=_('Used Count 7'), default=0)
-    count8 = models.IntegerField(verbose_name=_('Used Count 8'), default=0)
-    count9 = models.IntegerField(verbose_name=_('Used Count 9'), default=0)
 
     def __unicode__(self):
         return self.name
